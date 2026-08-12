@@ -132,4 +132,4 @@ The system has also exercised CPU-compatible document/OCR paths and GPU-backed l
 
 ## What is not currently claimed
 
-The project does not currently claim a published clinical validation study, diagnostic accuracy, superiority over OralGPT/OralAgent, or a general dental benchmark leaderboard result. Those would require separately designed, licensed, and reviewable studies.
+The project does not currently claim a published clinical validation study, diagnostic accuracy, superiority over other projects, or a general dental benchmark leaderboard result. Those would require separately designed, licensed, and reviewable studies.

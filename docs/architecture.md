@@ -36,59 +36,49 @@ No infrastructure component should become the architecture. Models, runtimes, st
 
 The system favors local and privately controlled execution where practical, while retaining interfaces that allow controlled comparison with other providers or deployment targets when useful.
 
-## Applications and shared platform
+## Two peer suites under DentalAI Nexus
 
-BossAI is the broader local-first application and runtime platform. AI-Lab is the adjacent research, corpus, model, training, and evaluation environment. They are separate repositories with shared architectural boundaries.
+DentalAI Nexus is the public umbrella for two peer private suites:
+
+- **BossAI — application and workflow suite:** clinical, transcription, automation, and future application workflows, with application-specific state and services.
+- **AI-Lab — AI infrastructure, asset, model, corpus, training, and evaluation suite:** acquisition, corpus and dataset work, model/artifact lifecycle, training, benchmarking, and Registry-backed infrastructure truth.
+
+They are separate repositories with shared architectural boundaries. The important distinction is ownership: BossAI owns application truth, while AI-Lab owns infrastructure and asset capabilities. Registry provides shared infrastructure truth across both suites.
 
 ```mermaid
 flowchart TB
-    subgraph Apps["Applications and research tools"]
-        CN["ClinNote\nclinical workflow"]
-        TS["TranSum\ntranscription and summarization"]
-        AD["AutoDev\nsoftware-development automation"]
-        DF["DataForge\nacquisition and corpus work"]
-        GM["GetMod\nmodel lifecycle"]
-        MT["MoTune\ntraining and derived artifacts"]
-        SL["StackLab\nevaluation and benchmarking"]
+    N["DentalAI Nexus\nshared architecture and capability model"]
+
+    subgraph B["BossAI — application and workflow suite"]
+        BA["ClinNote | TranSum | AutoDev\nand future applications"]
+        BS["BossAI shared app services"]
+        DB["BossAI application state\nworkflow state, inputs, outputs"]
+        BA --> BS --> DB
     end
 
-    subgraph Shared["Shared platform"]
-        CAP["Capability interfaces\nand Registry client"]
-        REG["Registry / PostgreSQL\nshared infrastructure truth"]
-        ROUTE["Routing and provider abstraction"]
-        SERVE["Serving and lifecycle coordination"]
-        OBS["Observability and operational services"]
-        STORE["Artifact and storage lifecycle"]
+    subgraph L["AI-Lab — infrastructure and asset suite"]
+        LA["DataForge | GetMod | MoTune | StackLab"]
+        REG["Registry-backed shared infrastructure truth\nmodels, artifacts, nodes, runtimes, storage, OSS, evaluation"]
+        LA --> REG
     end
 
-    subgraph Exec["Replaceable execution implementations"]
-        VLLM["vLLM"]
-        LLAMA["llama.cpp"]
-        OLLAMA["Ollama-compatible paths"]
-        ASR["ASR and speech runtimes"]
-        VISION["OCR, document, and vision runtimes"]
-    end
-
-    CN --> CAP
-    TS --> CAP
-    AD --> CAP
-    DF --> CAP
-    GM --> CAP
-    MT --> CAP
-    SL --> CAP
-    CAP --> REG
-    REG --> ROUTE
-    REG --> SERVE
-    REG --> STORE
-    REG --> OBS
-    ROUTE --> VLLM
-    ROUTE --> LLAMA
-    ROUTE --> OLLAMA
-    ROUTE --> ASR
-    ROUTE --> VISION
+    N --> B
+    N --> L
+    DB -. "capability contracts" .-> REG
+    REG --> CAP["Shared capabilities\nrouting | serving | tools"]
+    CAP --> EXEC["Replaceable execution targets\nWindows/WSL | Linux | Android | GPU | CPU | mobile"]
 ```
 
-The applications remain owners of their own workflows and application-specific state. They are intended to be independently replaceable consumers: a new application can be added, or an existing one can be retired, without making it the owner of shared model, runtime, storage, or platform truth. Shared infrastructure exists so that every application does not need to recreate model catalogs, runtime selection, storage placement, serving lifecycle, observability, or evaluation mechanisms.
+BossAI applications remain owners of their own workflows and application-specific state. AI-Lab applications remain owners of their research and asset workflows. Both suites are intended to be independently replaceable consumers: an application can be added, replaced, or retired without making it the owner of shared model, runtime, storage, or platform truth. Shared infrastructure exists so that each suite does not need to recreate model catalogs, runtime selection, storage placement, serving lifecycle, observability, or evaluation mechanisms.
+
+### Separate truths, shared contracts
+
+The database distinction is deliberate:
+
+- **BossAI application state:** workflow state, application inputs and outputs, job records, and application-specific metadata.
+- **Registry/control-plane state:** models, artifacts, nodes, hardware, runtimes, compatibility, endpoints, routes, storage placement, lifecycle, OSS relationships, and validation/evaluation metadata.
+
+Registry is not a universal database. It does not own prompts, completions, audio, transcripts, clinical notes, patient identifiers, or application content. The two suites connect through capability and metadata contracts rather than sharing ownership of the same data.
 
 ## Agnosticism across the platform
 
@@ -104,7 +94,7 @@ The applications remain owners of their own workflows and application-specific s
 
 This is an architectural design objective supported by selected live integrations and benchmark paths, not a claim that every boundary is already fully portable or automatically swappable.
 
-## Application ecosystem
+## Application and asset ecosystem
 
 | Component | Public role | Maturity description |
 | --- | --- | --- |
@@ -116,11 +106,11 @@ This is an architectural design objective supported by selected live integration
 | MoTune | Training, fine-tuning, distillation, adapter management, lineage, and derived model artifacts | Implemented with active development; not all workflows are production-ready |
 | StackLab | Runtime/model testing, benchmark collection, validation, regression comparison, and hardware/runtime evaluation | Implemented and actively used |
 
-These are not presented as independent commercial products. They are application and research boundaries within a larger private system.
+These are not presented as independent commercial products. They are application and infrastructure/asset boundaries within a larger private system.
 
-## AI-Lab as a research subsystem
+## AI-Lab as an infrastructure and asset suite
 
-AI-Lab is more than a directory of experiments. Its major boundaries are intentionally separated:
+AI-Lab is more than a directory of experiments. It is an infrastructure and asset suite whose major boundaries are intentionally separated:
 
 ```mermaid
 flowchart LR

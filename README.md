@@ -30,20 +30,35 @@ This is a personal research and development project, funded and independently de
 
 ## System at a glance
 
-BossAI is the broader local-first application and runtime platform. AI-Lab is the adjacent research, corpus, model, training, and evaluation environment. They are separate code repositories with shared architectural boundaries. Runtime data, model weights, databases, caches, and operational artifacts are deliberately kept outside the code repositories.
+DentalAI Nexus is the public umbrella for two peer private suites:
+
+- **BossAI — application and workflow suite:** clinical, transcription, automation, and future application workflows, with application-specific state and services.
+- **AI-Lab — AI infrastructure, asset, model, corpus, training, and evaluation suite:** acquisition, corpus and dataset work, model/artifact lifecycle, training, benchmarking, and Registry-backed infrastructure truth.
+
+They are separate code repositories with shared architectural boundaries. Runtime data, model weights, databases, caches, and operational artifacts are deliberately kept outside the code repositories.
 
 ```mermaid
-flowchart TD
-    U[Dental workflows and research questions] --> A[Applications and research tools]
-    A --> O[Agent and workflow orchestration]
-    O --> C[Registry-backed shared infrastructure truth]
-    C --> R[Routing and endpoint selection]
-    R --> X[Local execution runtimes]
-    X --> M[LLMs, ASR, embeddings, OCR, vision]
-    K[Dental sources and approved knowledge assets] --> D[Corpus and dataset pipelines]
-    D --> E[Retrieval, training, and evaluation]
-    E --> C
-    E --> A
+flowchart TB
+    N["DentalAI Nexus\nshared architecture and capability model"]
+
+    subgraph B["BossAI — application and workflow suite"]
+        BA["ClinNote | TranSum | AutoDev\nand future applications"]
+        BS["BossAI shared app services"]
+        DB["BossAI application state\nworkflow state, inputs, outputs"]
+        BA --> BS --> DB
+    end
+
+    subgraph L["AI-Lab — infrastructure and asset suite"]
+        LA["DataForge | GetMod | MoTune | StackLab"]
+        REG["Registry-backed shared infrastructure truth\nmodels, artifacts, nodes, runtimes, storage, OSS, evaluation"]
+        LA --> REG
+    end
+
+    N --> B
+    N --> L
+    DB -. "capability contracts" .-> REG
+    REG --> CAP["Shared capabilities\nrouting | serving | tools"]
+    CAP --> EXEC["Replaceable execution targets\nWindows/WSL | Linux | Android | GPU | CPU | mobile"]
 ```
 
 The architecture is intentionally layered:
@@ -54,7 +69,9 @@ The architecture is intentionally layered:
 - A routing layer can expose OpenAI-compatible local endpoints and provider abstraction without becoming the source of model truth.
 - Execution runtimes—such as llama.cpp, vLLM, Ollama where appropriate, and specialized local runtimes—run approved artifacts.
 
-Registry is the center of shared truth, not necessarily the synchronous path for every inference request. An application may send traffic through a router directly to a runtime while Registry supplies the authoritative relationships and eligibility facts behind that path. See [the expanded architecture overview](docs/architecture.md).
+Registry is the center of shared infrastructure truth, not necessarily the synchronous path for every inference request. An application may send traffic through a router directly to a runtime while Registry supplies the authoritative relationships and eligibility facts behind that path. See [the expanded architecture overview](docs/architecture.md).
+
+The key boundary is **separate truths, shared contracts**: BossAI owns application and workflow state; AI-Lab owns infrastructure, asset, corpus, training, and evaluation capabilities; Registry provides shared infrastructure truth across both suites.
 
 ## The application ecosystem
 

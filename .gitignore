@@ -1,0 +1,17 @@
+# No private or generated project data belongs in this repository.
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.sqlite
+*.db
+data/
+datasets/
+models/
+artifacts/
+outputs/
+transcripts/
+audio/
+__pycache__/
+.DS_Store

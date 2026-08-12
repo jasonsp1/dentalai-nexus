@@ -17,7 +17,7 @@ This repository is intended to be public-facing, but the underlying system remai
 - Credentials, API keys, tokens, passwords, `.env` contents, secret filenames, and authentication material.
 - Private IP addresses, hostnames, VPN/Tailscale names or addresses, service ports, ingress rules, and network topology.
 - Office security configuration, Windows security policy, certificates, firewall rules, and operational recovery procedures.
-- Private source code from BossAI or AI-Lab unless explicitly approved for release.
+- Private source code from APP-SUITE or AI-Lab unless explicitly approved for release.
 - Private datasets, model weights, generated outputs, embeddings, indexes, and corpus contents.
 - Copyrighted, gated, licensed, or proprietary third-party material that cannot be redistributed.
 - Exact filesystem paths, mount identifiers, storage serials, database DSNs, model cache locations, and deployment commands.

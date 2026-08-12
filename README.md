@@ -10,6 +10,8 @@ This is not a single dental chatbot. Multiple applications and research tools co
 
 The implementation is currently private while it remains under active development. This public repository is a curated project overview: it explains the architecture, research direction, evidence that can be shared, and the kinds of collaboration that may become useful. Suitable software, evaluations, integrations, and research artifacts may be released as they mature.
 
+![DentalAI Nexus architecture overview](docs/dentalai-nexus.png)
+
 ## Why this project exists
 
 The goal is not simply to run a chatbot or to own a collection of GPUs. The differentiating combination is:
@@ -32,7 +34,7 @@ This is a personal research and development project, funded and independently de
 
 DentalAI Nexus is the public umbrella for two peer private suites:
 
-- **BossAI — application and workflow suite:** clinical, transcription, automation, and future application workflows, with application-specific state and services.
+- **APP-SUITE — application and workflow suite:** clinical, transcription, automation, and future application workflows, with application-specific state and services.
 - **AI-Lab — AI infrastructure, asset, model, corpus, training, and evaluation suite:** acquisition, corpus and dataset work, model/artifact lifecycle, training, benchmarking, and Registry-backed infrastructure truth.
 
 They are separate code repositories with shared architectural boundaries. Runtime data, model weights, databases, caches, and operational artifacts are deliberately kept outside the code repositories.
@@ -41,10 +43,10 @@ They are separate code repositories with shared architectural boundaries. Runtim
 flowchart TB
     N["DentalAI Nexus\nshared architecture and capability model"]
 
-    subgraph B["BossAI — application and workflow suite"]
+    subgraph B["APP-SUITE — application and workflow suite"]
         BA["ClinNote | TranSum | AutoDev\nand future applications"]
-        BS["BossAI shared app services"]
-        DB["BossAI application state\nworkflow state, inputs, outputs"]
+        BS["APP-SUITE shared app services"]
+        DB["APP-SUITE application state\nworkflow state, inputs, outputs"]
         BA --> BS --> DB
     end
 
@@ -71,7 +73,7 @@ The architecture is intentionally layered:
 
 Registry is the center of shared infrastructure truth, not necessarily the synchronous path for every inference request. An application may send traffic through a router directly to a runtime while Registry supplies the authoritative relationships and eligibility facts behind that path. See [the expanded architecture overview](docs/architecture.md).
 
-The key boundary is **separate truths, shared contracts**: BossAI owns application and workflow state; AI-Lab owns infrastructure, asset, corpus, training, and evaluation capabilities; Registry provides shared infrastructure truth across both suites.
+The key boundary is **separate truths, shared contracts**: APP-SUITE owns application and workflow state; AI-Lab owns infrastructure, asset, corpus, training, and evaluation capabilities; Registry provides shared infrastructure truth across both suites.
 
 ## The application ecosystem
 

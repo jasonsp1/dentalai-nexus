@@ -40,19 +40,19 @@ The system favors local and privately controlled execution where practical, whil
 
 DentalAI Nexus is the public umbrella for two peer private suites:
 
-- **BossAI — application and workflow suite:** clinical, transcription, automation, and future application workflows, with application-specific state and services.
+- **APP-SUITE — application and workflow suite:** clinical, transcription, automation, and future application workflows, with application-specific state and services.
 - **AI-Lab — AI infrastructure, asset, model, corpus, training, and evaluation suite:** acquisition, corpus and dataset work, model/artifact lifecycle, training, benchmarking, and Registry-backed infrastructure truth.
 
-They are separate repositories with shared architectural boundaries. The important distinction is ownership: BossAI owns application truth, while AI-Lab owns infrastructure and asset capabilities. Registry provides shared infrastructure truth across both suites.
+They are separate repositories with shared architectural boundaries. The important distinction is ownership: APP-SUITE owns application truth, while AI-Lab owns infrastructure and asset capabilities. Registry provides shared infrastructure truth across both suites.
 
 ```mermaid
 flowchart TB
     N["DentalAI Nexus\nshared architecture and capability model"]
 
-    subgraph B["BossAI — application and workflow suite"]
+    subgraph B["APP-SUITE — application and workflow suite"]
         BA["ClinNote | TranSum | AutoDev\nand future applications"]
-        BS["BossAI shared app services"]
-        DB["BossAI application state\nworkflow state, inputs, outputs"]
+        BS["APP-SUITE shared app services"]
+        DB["APP-SUITE application state\nworkflow state, inputs, outputs"]
         BA --> BS --> DB
     end
 
@@ -69,13 +69,13 @@ flowchart TB
     CAP --> EXEC["Replaceable execution targets\nWindows/WSL | Linux | Android | GPU | CPU | mobile"]
 ```
 
-BossAI applications remain owners of their own workflows and application-specific state. AI-Lab applications remain owners of their research and asset workflows. Both suites are intended to be independently replaceable consumers: an application can be added, replaced, or retired without making it the owner of shared model, runtime, storage, or platform truth. Shared infrastructure exists so that each suite does not need to recreate model catalogs, runtime selection, storage placement, serving lifecycle, observability, or evaluation mechanisms.
+APP-SUITE applications remain owners of their own workflows and application-specific state. AI-Lab applications remain owners of their research and asset workflows. Both suites are intended to be independently replaceable consumers: an application can be added, replaced, or retired without making it the owner of shared model, runtime, storage, or platform truth. Shared infrastructure exists so that each suite does not need to recreate model catalogs, runtime selection, storage placement, serving lifecycle, observability, or evaluation mechanisms.
 
 ### Separate truths, shared contracts
 
 The database distinction is deliberate:
 
-- **BossAI application state:** workflow state, application inputs and outputs, job records, and application-specific metadata.
+- **APP-SUITE application state:** workflow state, application inputs and outputs, job records, and application-specific metadata.
 - **Registry/control-plane state:** models, artifacts, nodes, hardware, runtimes, compatibility, endpoints, routes, storage placement, lifecycle, OSS relationships, and validation/evaluation metadata.
 
 Registry is not a universal database. It does not own prompts, completions, audio, transcripts, clinical notes, patient identifiers, or application content. The two suites connect through capability and metadata contracts rather than sharing ownership of the same data.
